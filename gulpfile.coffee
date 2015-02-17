@@ -1,41 +1,84 @@
 gulp = require('gulp')
 rename = require('gulp-rename')
+argv = require('yargs').argv
+
 browserify = require('gulp-browserify')
+reactify = require('reactify')
+
 sass = require('gulp-sass')
+sourcemaps = require('gulp-sourcemaps')
 
+express = require('express')
+server_port = 8000
 
-files =
-    scripts: './app/scripts/*.{js,coffee}'
-    styles: './app/styles/*.{css,scss}'
-    assets: './app/assets/**/*'
+paths =
+    scripts: './app/scripts'
+    styles: './app/styles'
+    assets: './app/assets'
 
-gulp.task 'compile:scripts', ->
-  gulp.src(files.scripts, { read: false })
+debug = (argv.env != 'production')
+
+# app/scriptsのビルド
+gulp.task 'build:scripts', ->
+  # JSXはreactifyでコンパイル
+  # debowerifyでbowerのrequireをサポート
+  # --env "production"の場合、sourcemapを付けない
+  gulp.src("#{paths.scripts}/*.{js,jsx}", { read: false })
     .pipe(
       browserify(
-        transform: ['coffee-reactify']
-        extensions: ['.coffee', 'js']
-        debug: true
+        transform: ['reactify', 'debowerify']
+        extensions: ['js', 'jsx']
+        debug: debug
       )
     )
     .pipe(rename(extname: '.js'))
     .pipe(gulp.dest('./public/'))
 
-gulp.task 'compile:styles', ->
-  gulp.src(files.styles)
+  # coffee-reactifyでcoffeescript + jsxをコンパイル
+  gulp.src("#{paths.scripts}/*.{coffee,cjsx}", { read: false })
+    .pipe(
+      browserify(
+        transform: ['coffee-reactify', 'debowerify']
+        extensions: ['coffee']
+        debug: debug
+      )
+    )
+    .pipe(rename(extname: '.js'))
+    .pipe(gulp.dest('./public/'))
+
+# app/stylesのビルド
+gulp.task 'build:styles', ->
+  # sassをsourcemap付きでコンパイル
+  gulp.src("#{paths.styles}/*.{css,scss}")
+    .pipe(sourcemaps.init())
     .pipe(sass())
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('./public/'))
 
-gulp.task 'compile:assets', ->
-  gulp.src(files.assets)
+# app/assetsのビルド
+gulp.task 'build:assets', ->
+  # assetsはコピーするだけ
+  gulp.src("#{paths.assets}/**/*")
     .pipe(gulp.dest('./public/'))
 
-gulp.task 'watch', ['compile'], ->
-    gulp.watch files.scripts, ['compile:scripts']
-    gulp.watch files.styles, ['compile:styles']
-    gulp.watch files.assets, ['compile:assets']
+gulp.task 'build', [
+    'build:scripts'
+    'build:styles'
+    'build:assets'
+  ]
 
-gulp.task 'compile', ->
-  gulp.run('compile:scripts')
-  gulp.run('compile:styles')
-  gulp.run('compile:assets')
+
+# HTTPサーバを起動
+gulp.task 'serve', ->
+  server = express()
+  server.use(express.static('./public'));
+  server.listen(server_port)
+
+# ファイルの変更を監視してビルド
+gulp.task 'watch', ['build'], ->
+    gulp.watch "#{paths.scripts}/**/*.{js,jsx,coffee,cjsx}", ['build:scripts']
+    gulp.watch "#{paths.styles}/**/*.{css,scss}", ['build:styles']
+    gulp.watch "#{paths.assets}/**/*", ['build:assets']
+
+# HTTPサーバを起動しつつ、変更を監視
+gulp.task 'dev', ['serve', 'watch'], ->
