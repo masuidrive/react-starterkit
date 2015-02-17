@@ -3,7 +3,6 @@ rename = require('gulp-rename')
 argv = require('yargs').argv
 
 browserify = require('gulp-browserify')
-reactify = require('reactify')
 
 sass = require('gulp-sass')
 sourcemaps = require('gulp-sourcemaps')
