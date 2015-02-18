@@ -1,4 +1,4 @@
-# React + (Javascript || CoffeeScript) + Bower スタータキット
+# React + (Javascript || CoffeeScript) + Bower スタータキット @masuidrive
 
 ## install
 
