@@ -18,10 +18,12 @@ paths =
 debug = (argv.env != 'production')
 
 # app/scriptsのビルド
-gulp.task 'build:scripts', ->
-  # JSXはreactifyでコンパイル
-  # debowerifyでbowerのrequireをサポート
-  # --env "production"の場合、sourcemapを付けない
+gulp.task 'build:scripts', ['build:scripts:jsx', 'build:scripts:coffee']
+
+# JSXはreactifyでコンパイル
+# debowerifyでbowerのrequireをサポート
+# --env "production"の場合、sourcemapを付けない
+gulp.task 'build:scripts:jsx', ->
   gulp.src("#{paths.scripts}/*.{js,jsx}", { read: false })
     .pipe(
       browserify(
@@ -33,7 +35,8 @@ gulp.task 'build:scripts', ->
     .pipe(rename(extname: '.js'))
     .pipe(gulp.dest('./public/'))
 
-  # coffee-reactifyでcoffeescript + jsxをコンパイル
+# coffee-reactifyでcoffeescript + jsxをコンパイル
+gulp.task 'build:scripts:coffee', ->
   gulp.src("#{paths.scripts}/*.{coffee,cjsx}", { read: false })
     .pipe(
       browserify(

@@ -35,3 +35,9 @@ npm install && ./bin/bower install
 ```
 ./bin/gulp dev
 ```
+
+下記の様なエラーが出たら、`node_modules`と`bower_components`を削除して、`npm install`からやり直してください。
+
+```
+Error: `libsass` bindings not found. Try reinstalling `node-sass`?
+```
