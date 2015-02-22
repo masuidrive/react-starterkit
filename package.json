@@ -1,5 +1,5 @@
 {
-  "name": "baseline1",
+  "name": "masuidrive-react-starterkit",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,6 +12,7 @@
     "gulp": "^3.8.11",
     "gulp-browserify": "^0.5.1",
     "gulp-coffee": "^2.3.1",
+    "gulp-gh-pages": "^0.4.0",
     "gulp-rename": "^1.2.0",
     "gulp-sass": "^1.3.3",
     "gulp-sourcemaps": "^1.3.0",
@@ -19,7 +20,8 @@
     "yargs": "^3.0.4"
   },
   "devDependencies": {
-    "coffee-script": "^1.9.0"
+    "coffee-script": "^1.9.0",
+    "gulp-clean": "^0.3.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -1,6 +1,7 @@
 gulp = require('gulp')
 rename = require('gulp-rename')
 argv = require('yargs').argv
+clean = require('gulp-clean')
 
 browserify = require('gulp-browserify')
 
@@ -23,45 +24,69 @@ gulp.task 'build:scripts', ['build:scripts:jsx', 'build:scripts:coffee']
 # JSXはreactifyでコンパイル
 # debowerifyでbowerのrequireをサポート
 # --env "production"の場合、sourcemapを付けない
-gulp.task 'build:scripts:jsx', ->
+task_build_scripts_jsx = (options = {}) ->
   gulp.src("#{paths.scripts}/*.{js,jsx}", { read: false })
     .pipe(
       browserify(
         transform: ['reactify', 'debowerify']
         extensions: ['js', 'jsx']
-        debug: debug
+        debug: options.debug ? debug
       )
     )
     .pipe(rename(extname: '.js'))
-    .pipe(gulp.dest('./public/'))
+    .pipe(gulp.dest(options.dest ? './public/'))
+
+gulp.task 'build:scripts:jsx', ->
+  task_build_scripts_jsx()
+
 
 # coffee-reactifyでcoffeescript + jsxをコンパイル
-gulp.task 'build:scripts:coffee', ->
+task_build_scripts_coffee = (options = {}) ->
   gulp.src("#{paths.scripts}/*.{coffee,cjsx}", { read: false })
     .pipe(
       browserify(
         transform: ['coffee-reactify', 'debowerify']
         extensions: ['coffee']
-        debug: debug
+        debug: options.debug ? debug
       )
     )
     .pipe(rename(extname: '.js'))
-    .pipe(gulp.dest('./public/'))
+    .pipe(gulp.dest(options.dest ? './public/'))
+
+gulp.task 'build:scripts:coffee', ->
+  task_build_scripts_coffee()
+
 
 # app/stylesのビルド
-gulp.task 'build:styles', ->
+task_build_styles = (options = {}) ->
   # sassをsourcemap付きでコンパイル
   gulp.src("#{paths.styles}/*.{css,scss}")
     .pipe(sourcemaps.init())
     .pipe(sass())
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./public/'))
+    .pipe(gulp.dest(options.dest ? './public/'))
+
+gulp.task 'build:styles', ->
+  task_build_styles()
 
 # app/assetsのビルド
-gulp.task 'build:assets', ->
+task_build_assets = (options = {}) ->
   # assetsはコピーするだけ
   gulp.src("#{paths.assets}/**/*")
-    .pipe(gulp.dest('./public/'))
+    .pipe(gulp.dest(options.dest ? './public/'))
+
+gulp.task 'build:assets', (options) ->
+  task_build_assets()
+
+
+# ファイルクリーン
+task_clean = (options = {}) ->
+  gulp.src(options.dest ? './public/', {read: false})
+    .pipe(clean())
+
+gulp.task 'clean', (options) ->
+  task_clean()
+
 
 gulp.task 'build', [
     'build:scripts'
@@ -84,3 +109,15 @@ gulp.task 'watch', ['build'], ->
 
 # HTTPサーバを起動しつつ、変更を監視
 gulp.task 'dev', ['serve', 'watch'], ->
+
+
+# 配布用ビルド
+gulp.task 'dist:build', ->
+  options =
+    debug: false
+    dest: "./dist/"
+  task_clean(options)
+  task_build_scripts_jsx(options)
+  task_build_scripts_coffee(options)
+  task_build_styles(options)
+  task_build_assets(options)
