@@ -33,6 +33,13 @@
     "start": "bin/gulp dev",
     "postinstall": "./bin/bower install --config.interactive=false && ./bin/gulp build"
   },
+  "browserify": {
+    "transform": [
+      "reactify",
+      "coffee-reactify",
+      "debowerify"
+    ]
+  },
   "author": "Someone",
   "license": "MIT"
 }

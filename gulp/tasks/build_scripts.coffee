@@ -12,56 +12,17 @@ coffee_reactify = require('coffee-reactify')
 debowerify = require('debowerify')
 
 # app/scriptsのビルド
-gulp.task 'build:scripts', [
-    'build:scripts:jsx'
-    'build:scripts:coffee'
-  ]
+gulp.task 'build:scripts', ->
+  exts = ['js', 'jsx', 'coffee', 'cjsx']
 
-
-# JSXはreactifyでコンパイル
-# debowerifyでbowerのrequireをサポート
-# --env "production"の場合、minifyしない
-gulp.task 'build:scripts:jsx', ->
   browserified = through2.obj (file, enc, next) ->
     browserify(file.path,
       debug: config.debug
-      extensions: ['js', 'jsx']
+      extensions: exts
     )
-    .transform(reactify)
-    .transform(debowerify)
-    .bundle (err, res) ->
-      if err
-        next(err)
-      else
-        file.contents = res
-        next(null, file)
+    .bundle()
 
-  gulp.src("#{config.path.scripts}/*.{js,jsx}")
-    .pipe(browserified)
-    .pipe(sourcemaps.init(loadMaps: true))
-    .pipe(gulpif(!config.debug, uglify()))
-    .pipe(rename(extname: '.js'))
-    .pipe(sourcemaps.write("."))
-    .pipe(gulp.dest(config.path.dest))
-
-
-# coffee-reactifyでcoffeescript + jsxをコンパイル
-gulp.task 'build:scripts:coffee', ->
-  browserified = through2.obj (file, enc, next) ->
-    browserify(file.path,
-      debug: config.debug
-      extensions: ['coffee', 'cjsx']
-    )
-    .transform(coffee_reactify)
-    .transform(debowerify)
-    .bundle (err, res) ->
-      if err
-        next(err)
-      else
-        file.contents = res
-        next(null, file)
-
-  gulp.src("#{config.path.scripts}/*.{coffee,cjsx}")
+  gulp.src("#{config.path.scripts}/*.{#{exts.join(',')}}")
     .pipe(browserified)
     .pipe(sourcemaps.init(loadMaps: true))
     .pipe(gulpif(!config.debug, uglify()))
