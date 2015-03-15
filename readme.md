@@ -80,11 +80,9 @@ host$ vagrant up && vagrant ssh
 Error: `libsass` bindings not found. Try reinstalling `node-sass`?
 ```
 
-## ソースコード
+## React解説
 
-　`./app`以下にソースコードが入っています。
-
-　2月中には、ここの拡充と記事書きます。
+- [Ajaxを劇的に簡単にするReact.js – @masuidrive blog](http://blog.masuidrive.jp/2015/03/03/react/)
 
 
 ## 配布用ビルド
