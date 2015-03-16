@@ -3,8 +3,8 @@
 # https://github.com/facebook/flux/blob/master/examples/flux-todomvc
 
 React = require('react')
-MainSection = require('./MainSection')
-TodoStore = require('../stores/TodoStore')
+MainSection = require('./MainSection.coffee')
+TodoStore = require('../stores/TodoStore.coffee')
 
 # Retrieve the current TODO data from the TodoStore
 getTodoState = () ->
@@ -13,16 +13,16 @@ getTodoState = () ->
 
 
 TodoApp = React.createClass
-  getInitialState: () ->
+  getInitialState: ->
     getTodoState()
 
-  componentDidMount: () ->
+  componentDidMount: ->
     TodoStore.addChangeListener(@_onChange);
 
-  componentWillUnmount: () ->
+  componentWillUnmount: ->
     TodoStore.removeChangeListener(@_onChange);
 
-  render: () ->
+  render: ->
     <div>
       <MainSection
         allTodos={this.state.allTodos}
@@ -30,8 +30,7 @@ TodoApp = React.createClass
       />
     </div>
 
-  _onChange: function() {
+  _onChange: ->
     this.setState(getTodoState())
-  }
 
 module.exports = TodoApp

@@ -4,6 +4,7 @@
   "description": "https://github.com/masuidrive/react-starterkit",
   "main": "index.js",
   "dependencies": {
+    "glob": "^5.0.3"
   },
   "devDependencies": {
     "bower": "^1.3.12",

@@ -16,6 +16,6 @@
     "react": "~0.13.0",
     "flux": "~2.0.2",
     "object-assign": "~2.0.0",
-    "keyMirror": "git@github.com:STRML/keyMirror.git#~0.1.1"
+    "keyMirror": "https://github.com/STRML/keyMirror.git#~0.1.1"
   }
 }
