@@ -4,8 +4,8 @@
 
 React = require('react')
 ReactPropTypes = React.PropTypes
-TodoActions = require('../actions/TodoActions')
-TodoItem = require('./TodoItem')
+TodoActions = require('../actions/TodoActions.coffee')
+TodoItem = require('./TodoItem.coffee')
 
 MainSection = React.createClass
 

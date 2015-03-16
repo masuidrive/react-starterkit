@@ -4,9 +4,9 @@
 
 React = require('react')
 ReactPropTypes = React.PropTypes
-TodoActions = require('../actions/TodoActions')
-TodoTextInput = require('./TodoTextInput')
-cx = require('react/lib/cx')
+cx = React.addons.classSet
+TodoActions = require('../actions/TodoActions.coffee')
+TodoTextInput = require('./TodoTextInput.coffee')
 
 TodoItem = React.createClass
 

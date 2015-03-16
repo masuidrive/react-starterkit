@@ -1,7 +1,7 @@
 # Original: Copyright (c) 2015, Facebook, Inc.
 # https://github.com/facebook/flux/blob/master/examples/flux-todomvc
-AppDispatcher = require('../dispatcher/AppDispatcher')
-TodoConstants = require('../constants/TodoConstants')
+AppDispatcher = require('../dispatcher/AppDispatcher.coffee')
+TodoConstants = require('../constants/TodoConstants.coffee')
 
 TodoActions =
   # @param  {string} text

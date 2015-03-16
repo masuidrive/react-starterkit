@@ -1,4 +1,4 @@
-keyMirror = require('keyMirror')
+keyMirror = require('keyMirror/index.js')
 
 module.exports = keyMirror
   TODO_CREATE: null
