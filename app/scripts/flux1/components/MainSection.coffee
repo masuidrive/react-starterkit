@@ -17,12 +17,8 @@ MainSection = React.createClass
   render: ->
     # This section should be hidden by default
     # and shown when there are todos.
-    if Object.keys(this.props.allTodos).length < 1
-      return null
-
     allTodos = this.props.allTodos
     todos = []
-
     for key, todo of allTodos
       todos.push(<TodoItem key={key} todo={todo} />)
 
@@ -38,7 +34,7 @@ MainSection = React.createClass
     </section>
 
   # Event handler to mark all TODOs as complete
-  _onToggleCompleteAll: () ->
+  _onToggleCompleteAll: ->
     TodoActions.toggleCompleteAll()
 
 

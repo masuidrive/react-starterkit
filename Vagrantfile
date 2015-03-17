@@ -9,6 +9,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box_url = "https://github.com/hyamamoto/virtual-core/releases/download/0.5/vcore-0.5-i486-core5.0.2-c.box"
   #config.vm.box = "olbat/tiny-core-micro"
   config.vm.network "forwarded_port", guest: 8000, host: 8000
+  config.vm.network "forwarded_port", guest: 35729, host: 35729 # gulp-livereload
   config.vm.synced_folder ".", "/vagrant"
   config.vm.provision :shell, :inline => <<-__SCRIPT__
     [ -x /usr/local/bin/git ] || su -c "tce-load -wi git" - tc
