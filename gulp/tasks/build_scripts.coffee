@@ -10,9 +10,10 @@ uglify = require('gulp-uglify')
 
 config = require('../config')
 
-swallowError = (error) ->
-  console.log(error.message)
-  @emit('end')
+swallowError = (filename) ->
+  (error) ->
+    console.log("#{filename}: #{error.message}")
+    @emit('end')
 
 # app/scriptsのビルド
 gulp.task 'build:scripts', ->
@@ -32,7 +33,7 @@ gulp.task 'build:scripts', ->
       ].map (f) -> path.resolve(f)
     )
     .bundle()
-    .on('error', swallowError)
+    .on('error', swallowError(filename))
   )
   .pipe(sourcemaps.init(loadMaps: true))
   .pipe(gulpif(!config.debug, uglify()))

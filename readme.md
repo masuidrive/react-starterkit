@@ -44,8 +44,6 @@ host$ vagrant up && vagrant ssh
 /vagrant$ cd /vagrant
 ```
 
-注) 必要なboxファイルは12MB程度と小さいモノを使っています。
-
 
 ## パッケージを導入
 
@@ -53,7 +51,7 @@ host$ vagrant up && vagrant ssh
 
 ```
 /vagrant$ rm -Rf node_modules bower_components
-/vagrant$ npm install && ./bin/bower install --config.interactive=false
+/vagrant$ npm install && ./bin/bower install
 ```
 
 　もし下記の様なメッセージが出たら「y」キーを押して下さい。
