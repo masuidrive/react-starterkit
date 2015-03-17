@@ -1,9 +1,7 @@
+path = require('path')
 gulp = require('gulp')
 rename = require('gulp-rename')
 gulpif = require('gulp-if')
-glob = require("glob")
-buffer = require('vinyl-buffer')
-source = require('vinyl-source-stream')
 transform = require('vinyl-transform')
 
 browserify = require('browserify')
@@ -27,9 +25,14 @@ gulp.task 'build:scripts', ->
       debug: config.debug
       extensions: exts
       # requireの処理をしないファイル
-      noParse: ['/vagrant/bower_components/flux/dist/Flux.js']
+      noParse: [
+        'bower_components/flux/dist/Flux.js'
+        'bower_components/react/react.js'
+        'bower_components/react/react-with-addons.js'
+      ].map (f) -> path.resolve(f)
     )
     .bundle()
+    .on('error', swallowError)
   )
   .pipe(sourcemaps.init(loadMaps: true))
   .pipe(gulpif(!config.debug, uglify()))
