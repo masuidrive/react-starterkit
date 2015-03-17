@@ -90,6 +90,46 @@ Error: `libsass` bindings not found. Try reinstalling `node-sass`?
 　`./bin/gulp dist:build`を実行すると、 JavascriptとCSSのsourcemapsを取り除いてminifyして`./dist`にコピーします。
 
 
+## エラー通知 (OSXのみ)
+
+コンパイルエラーなどをデスクトップ側に通知するには、[terminal-notifier](https://github.com/alloy/terminal-notifier/releases)を解凍して、/Applicationsへ入れてください。
+
+その後、OSX上の適当なディレクトリに下記の内容で、`notify-send`というファイルを作ります。
+
+```
+#!/bin/bash
+while getopts t:h:i:u:i:c: OPTION
+do
+  case $OPTION in
+    t) TIME=$OPTARG;;
+    h) ;;
+    i) IMAGE=$OPTARG;;
+    u) ;;
+  esac
+done
+shift `expr $OPTIND - 1`
+MESSAGE=$*
+/Applications/terminal-notifier.app/Contents/MacOS/terminal-notifier -title "$1" -message "$MESSAGE" -contentImage "$IMAGE" -sound Purr
+```
+
+その後、下記のコマンドを実行して設置します。
+
+```
+osx$ chmod a+x notify-send
+osx$ sudo mv notify-send /usr/local/bin
+```
+
+Vagrant上からこのコマンドを呼ぶためのvagrant-nofityというプラグインを入れて、vagrantに読み込ませます。
+
+```
+osx$ NOKOGIRI_USE_SYSTEM_LIBRARIES=true vagrant plugin install vagrant-notify
+osx$ vagrant reload
+```
+
+これでコンパイルエラーが起こるとデスクトップに通知されます
+
+
+
 ## CM
 トレタでは、業務急拡大中につきRuby/フロントエンド/インフラエンジニアが足りなくてとっても困っています！
 コード書くことが好きなエンジニアを募集しています。
