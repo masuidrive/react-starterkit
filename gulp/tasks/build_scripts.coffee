@@ -12,6 +12,7 @@ uglify = require('gulp-uglify')
 config = require('../config')
 
 swallowError = (error) ->
+  console.log "#{error.plugin}: #{error.message}"
   notifier.notify(
     message: error.message
     title: error.plugin
