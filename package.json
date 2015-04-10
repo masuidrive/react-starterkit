@@ -2,6 +2,7 @@
   "name": "masuidrive-react-starterkit",
   "version": "1.0.0",
   "description": "https://github.com/masuidrive/react-starterkit",
+  "engine": "node >= 0.12.0",
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
