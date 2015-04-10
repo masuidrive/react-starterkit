@@ -12,12 +12,13 @@ uglify = require('gulp-uglify')
 config = require('../config')
 
 swallowError = (error) ->
-  console.log "#{error.plugin}: #{error.message}"
-  notifier.notify(
-    message: error.message
-    title: error.plugin
-  )
-  @emit('end')
+  (error)->
+    console.log error
+    notifier.notify(
+      title: "React"
+      message: error
+    )
+    @emit('end')
 
 # app/scriptsのビルド
 gulp.task 'build:scripts', ->
@@ -37,7 +38,7 @@ gulp.task 'build:scripts', ->
       ].map (f) -> path.resolve(f)
     )
     # 互換性のためのshimを登録
-    .add("./vendor/assets/javascripts/shim.coffee")
+    # .add("./vendor/assets/javascripts/shim.coffee")
     .bundle()
     .on('error', swallowError(filename))
   )
