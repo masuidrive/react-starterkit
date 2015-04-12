@@ -13,8 +13,8 @@
     "tests"
   ],
   "dependencies": {
-    "react": "~0.13.0",
-    "flux": "https://github.com/facebook/flux.git#172a114",
+    "react": "~0.13.1",
+    "flux": "https://github.com/facebook/flux.git#9aeb34b9d9",
     "object-assign": "~2.0.0",
     "keyMirror": "https://github.com/STRML/keyMirror.git#~0.1.1"
   }

@@ -1,6 +1,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+
+GUEST_NODE_VERSION = "0.12.2"
+
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
@@ -11,17 +14,24 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 8000, host: 8000
   config.vm.network "forwarded_port", guest: 35729, host: 35729 # gulp-livereload
   config.vm.synced_folder ".", "/vagrant"
-  config.vm.provision :shell, :inline => <<-__SCRIPT__
+  config.vm.provision :shell, privileged: true, :inline => <<-__SCRIPT__
     [ -x /usr/local/bin/git ] || su -c "tce-load -wi git" - tc
 
-    if [ ! -x "/usr/local/node-v0.12.0-linux-x86/bin/node" ]; then
+    if [ ! -x "/usr/local/node-v#{GUEST_NODE_VERSION}-linux-x86/bin/node" ]; then
       cd /tmp
-      wget http://nodejs.org/dist/v0.12.0/node-v0.12.0-linux-x86.tar.gz
-      tar xfz node-v0.12.0-linux-x86.tar.gz -C /usr/local
-      rm node-v0.12.0-linux-x86.tar.gz
-      echo "export PATH=/usr/local/node-v0.12.0-linux-x86/bin:\\$PATH">> /home/tc/.profile
+      wget --quiet http://nodejs.org/dist/v#{GUEST_NODE_VERSION}/node-v#{GUEST_NODE_VERSION}-linux-x86.tar.gz
+      tar xfz node-v#{GUEST_NODE_VERSION}-linux-x86.tar.gz -C /usr/local
+      rm node-v#{GUEST_NODE_VERSION}-linux-x86.tar.gz
+      echo "export PATH=/usr/local/node-v#{GUEST_NODE_VERSION}-linux-x86/bin:\\$PATH">> /home/tc/.profile
     fi
   __SCRIPT__
+  
+  config.vm.provision :shell, privileged: false, :inline => <<-__SCRIPT__
+    export PATH="/usr/local/node-v#{GUEST_NODE_VERSION}-linux-x86/bin:$PATH"
+    cd /vagrant
+    npm install && ./bin/bower install
+  __SCRIPT__
+
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", 512]
   end

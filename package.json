@@ -2,11 +2,9 @@
   "name": "masuidrive-react-starterkit",
   "version": "1.0.0",
   "description": "https://github.com/masuidrive/react-starterkit",
-  "engine": "node >= 0.12.0",
-  "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "bower": "^1.3.12",
+    "bower": "^1.4.1",
     "browserify": "^8.1.3",
     "coffee-reactify": "^2.4.1",
     "coffee-script": "^1.9.1",
@@ -28,7 +26,7 @@
     "require-dir": "^0.1.0",
     "run-sequence": "^1.0.2",
     "vinyl-transform": "^1.0.0",
-    "yargs": "^3.0.4"
+    "yargs": "^3.5.4"
   },
   "scripts": {
     "start": "bin/gulp dev"
