@@ -31,8 +31,16 @@
   },
   "browserify": {
     "transform": [
-      "babelify",
-      "debowerify"
+      ["babelify",
+        {
+          "compact": false,
+          "ignore": [
+            "**/bower_components/react/*.js",
+            "**/bower_components/flux/dist/*.js"
+          ]
+        }
+      ],
+      ["debowerify"]
     ]
   },
   "author": "masuidrive",
