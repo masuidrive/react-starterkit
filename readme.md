@@ -62,10 +62,11 @@ host$ vagrant up && vagrant ssh
 
 　開発環境のパッケージはnpm、クライアント側のライブラリはbowerで管理しています。
 
+　またOSに合わせた方法で、[libSass](http://sass-lang.com/libsass)をインストールしておいてください。
 
 ## 実行
 
-　下記のコマンドを実行後、ブラウザで[http://localhost:8000]を開いて下さい。
+　下記のコマンドを実行後、ブラウザで http://localhost:8000 を開いて下さい。
 
 ```
 /vagrant$ ./bin/gulp dev

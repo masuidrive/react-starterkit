@@ -1,7 +1,6 @@
-/** @jsx React.DOM */
-var React = require('react')
+var React = require('react');
 
-Hello = React.createClass({
+var Hello = React.createClass({
   render: function() {
     return <div>Hello {this.props.name}</div>;
   }
