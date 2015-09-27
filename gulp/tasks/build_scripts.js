@@ -26,13 +26,6 @@ var swallowError = function(error) {
 
 // app/scriptsのビルド
 gulp.task('build:scripts', function() {
-/*
-  browserify('./app/scripts/example2.jsx', { debug: true })
-    .bundle()
-    .on("error", function (err) { console.log("Error : " + err.message); })
-    .pipe(source('example2.js'))
-    .pipe(gulp.dest('./public'))
-*/
   var exts = ['js', 'jsx'];
 
   gulp.src(config.path.scripts + '/*.{' + exts.join(',') + '}')
